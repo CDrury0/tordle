@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Heading />
-      <Board numGuesses={5}/>
+      <Board numGuesses={6}/>
     </div>
   );
 }

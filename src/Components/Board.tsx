@@ -8,14 +8,16 @@ interface BoardProps {
 const Board: React.FC<BoardProps> = ({ numGuesses }) => {
     const dummy = GetNumDummy(numGuesses);
     return (
-        <>
-        {dummy.map((val, index) => {
-            //make word length variable?
-            return <BoardRow
-                wordLength={5}
-            />
-        })}
-        </>
+        <div className="Board">
+            {dummy.map((val, index) => {
+                //make word length variable?
+                return <BoardRow
+                    wordLength={5}
+                    val={val}
+                    index={index}
+                />
+            })}
+        </div>
     );
 }
 
