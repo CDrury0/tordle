@@ -3,10 +3,12 @@ import BoardRow from './BoardRow';
 
 interface BoardProps {
     numGuesses: number
+    activeCell: [row: number, col: number]
+    guesses: string[]
 }
 
-const Board: React.FC<BoardProps> = ({ numGuesses }) => {
-    const dummy = GetNumDummy(numGuesses);
+const Board: React.FC<BoardProps> = ({ numGuesses, activeCell, guesses }) => {
+    const dummy = getNumDummy(numGuesses);
     return (
         <div className="Board">
             {dummy.map((val, index) => {
@@ -14,14 +16,15 @@ const Board: React.FC<BoardProps> = ({ numGuesses }) => {
                 return <BoardRow
                     wordLength={5}
                     val={val}
-                    index={index}
+                    key={index}
+                    guesses={guesses}
                 />
             })}
         </div>
     );
 }
 
-export const GetNumDummy = (num: number) : number[] => {
+export const getNumDummy = (num: number) : number[] => {
     const dummy = [];
     for (let i = 0; i < num; i++){
         dummy.push(i);
