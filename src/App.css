@@ -49,3 +49,15 @@
   height: clamp(60px, 6.5vh, 80px);
   margin: 5px;
 }
+
+.bgGreen {
+  background-color: #107010;
+}
+
+.bgYellow {
+  background-color: #909010;
+}
+
+.bgGray {
+  background-color: #3a3a3a;
+}

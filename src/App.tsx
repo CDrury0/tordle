@@ -1,59 +1,71 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState, useContext, createContext} from 'react';
 import './App.css';
 import Heading from './Components/Heading';
 import Board from './Components/Board';
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const WordContext = createContext<string | undefined>(undefined);
 
 function App() {
 	const [guesses, setGuesses] = useState<string[]>([""]);
+	const [word, setWord] = useState<string>("AAAAA");
 	const wordLength = 5;
 	const numGuesses = 6;
 
 	const modifyCurrentGuess = (predicate: (g: string) => boolean, action: (g: string) => string) => {
-		const temp = guesses;
+		const temp = guesses.slice();
 		let tempLastGuess = temp.pop();
 		//can't use truthiness operator here because an empty string would be falsy, yet is a valid possibility
 		if (tempLastGuess !== undefined && predicate(tempLastGuess)) {
 			tempLastGuess = action(tempLastGuess);
 		}
 		temp.push(tempLastGuess!);
-		setGuesses([...temp]);
+		setGuesses(temp);
 	};
 
 	const addLetterToGuess = (input: string) => {
-		modifyCurrentGuess((g: string) => g.length < wordLength, (g: string) => g + input);
+		modifyCurrentGuess((g: string) => g.length < wordLength, (g: string) => g.concat(input));
 	};
 
 	const removeLetterFromGuess = () => {
 		modifyCurrentGuess((g: string) => g.length > 0, (g: string) => g.slice(0, g.length - 1));
 	};
 
-	
+	const submitGuess = () => {
+		const newGuesses = guesses.slice().pop()!.length === wordLength ? [...guesses, ""] : [...guesses];
+		setGuesses(newGuesses);
+	};
+
+	const listenerCallback = (e: KeyboardEvent) => {
+		if (!e.repeat) {
+			const input = e.key.toUpperCase()
+			if (alphabet.includes(input)) {
+				addLetterToGuess(input);
+				window.removeEventListener("keydown", listenerCallback);
+			}
+			else if (input === "BACKSPACE") {
+				removeLetterFromGuess();
+				window.removeEventListener("keydown", listenerCallback);
+			}
+			else if (input === "ENTER") {
+				submitGuess();
+				window.removeEventListener("keydown", listenerCallback);
+			}
+		}
+	};
 
 	useEffect(() => {
-		window.addEventListener("keydown", (e: KeyboardEvent) => {
-			if (!e.repeat) {
-				const input = e.key.toUpperCase()
-				if (alphabet.includes(input)) {
-					addLetterToGuess(input);
-				}
-				else if (input === "BACKSPACE") {
-					removeLetterFromGuess();
-				}
-				else if (input === "ENTER") {
-					//submitGuess();
-				}
-			}
-		});
-	}, []);
+		window.addEventListener("keydown", listenerCallback);
+	}, [guesses]);
 
 	console.log(guesses);
 
 	return (
-        <div className="App">
-            <Heading />
-			<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
+		<div className="App">
+			<WordContext.Provider value={word}>
+            	<Heading />
+				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
+			</WordContext.Provider>
         </div>
     );
 }
