@@ -3,18 +3,18 @@ import BoardRow from './BoardRow';
 
 interface BoardProps {
     numGuesses: number
-    activeCell: [row: number, col: number]
+    wordLength: number
     guesses: string[]
 }
 
-const Board: React.FC<BoardProps> = ({ numGuesses, activeCell, guesses }) => {
+const Board: React.FC<BoardProps> = ({ numGuesses, wordLength, guesses }) => {
     const dummy = getNumDummy(numGuesses);
     return (
         <div className="Board">
             {dummy.map((val, index) => {
                 //make word length variable?
                 return <BoardRow
-                    wordLength={5}
+                    wordLength={wordLength}
                     val={val}
                     key={index}
                     guesses={guesses}

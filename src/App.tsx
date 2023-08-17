@@ -6,36 +6,54 @@ import Board from './Components/Board';
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function App() {
-	const [activeCell, setActiveCell] = useState<[number, number]>([0, 0]);
 	const [guesses, setGuesses] = useState<string[]>([""]);
 	const wordLength = 5;
+	const numGuesses = 6;
+
+	const modifyCurrentGuess = (predicate: (g: string) => boolean, action: (g: string) => string) => {
+		const temp = guesses;
+		let tempLastGuess = temp.pop();
+		//can't use truthiness operator here because an empty string would be falsy, yet is a valid possibility
+		if (tempLastGuess !== undefined && predicate(tempLastGuess)) {
+			tempLastGuess = action(tempLastGuess);
+		}
+		temp.push(tempLastGuess!);
+		setGuesses([...temp]);
+	};
+
+	const addLetterToGuess = (input: string) => {
+		modifyCurrentGuess((g: string) => g.length < wordLength, (g: string) => g + input);
+	};
+
+	const removeLetterFromGuess = () => {
+		modifyCurrentGuess((g: string) => g.length > 0, (g: string) => g.slice(0, g.length - 1));
+	};
+
+	
 
 	useEffect(() => {
-		const addLetterToGuess = (letter: string) => {
-			const temp = guesses;
-			let tempLastGuess = temp.pop();
-			if (tempLastGuess?.length !== wordLength) {
-				tempLastGuess += letter;
-			}
-			temp.push(tempLastGuess!);
-			setGuesses([...temp]);
-		};
-
 		window.addEventListener("keydown", (e: KeyboardEvent) => {
 			if (!e.repeat) {
 				const input = e.key.toUpperCase()
 				if (alphabet.includes(input)) {
 					addLetterToGuess(input);
 				}
-				//if back / enter
+				else if (input === "BACKSPACE") {
+					removeLetterFromGuess();
+				}
+				else if (input === "ENTER") {
+					//submitGuess();
+				}
 			}
 		});
 	}, []);
 
+	console.log(guesses);
+
 	return (
         <div className="App">
             <Heading />
-			<Board numGuesses={6} guesses={guesses} activeCell={activeCell} />
+			<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
         </div>
     );
 }
