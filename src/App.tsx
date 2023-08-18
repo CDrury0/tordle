@@ -1,16 +1,17 @@
-import {useEffect, useState, useContext, createContext} from 'react';
+import {useEffect, useState, createContext} from 'react';
 import './App.css';
 import Heading from './Components/Heading';
 import Board from './Components/Board';
+import DisplayKeyboard from './Components/DisplayKeyboard';
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const WordContext = createContext<string | undefined>(undefined);
 
 function App() {
 	const [guesses, setGuesses] = useState<string[]>([""]);
-	const [word, setWord] = useState<string>("AAAAA");
-	const wordLength = 5;
-	const numGuesses = 6;
+	const [word, setWord] = useState<string>("AABAA");
+	const [wordLength, setWordLength] = useState<number>(5);
+	const [numGuesses, setNumGuesses] = useState<number>(6);
 
 	const modifyCurrentGuess = (predicate: (g: string) => boolean, action: (g: string) => string) => {
 		const temp = guesses.slice();
@@ -24,11 +25,11 @@ function App() {
 	};
 
 	const addLetterToGuess = (input: string) => {
-		modifyCurrentGuess((g: string) => g.length < wordLength, (g: string) => g.concat(input));
+		modifyCurrentGuess((g: string) => g.length < wordLength, (g: string) => g + input);
 	};
 
 	const removeLetterFromGuess = () => {
-		modifyCurrentGuess((g: string) => g.length > 0, (g: string) => g.slice(0, g.length - 1));
+		modifyCurrentGuess((g: string) => g.length > 0, (g: string) => g.slice(0, -1));
 	};
 
 	const submitGuess = () => {
@@ -58,13 +59,12 @@ function App() {
 		window.addEventListener("keydown", listenerCallback);
 	}, [guesses]);
 
-	console.log(guesses);
-
 	return (
 		<div className="App">
 			<WordContext.Provider value={word}>
             	<Heading />
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
+				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} />
 			</WordContext.Provider>
         </div>
     );
