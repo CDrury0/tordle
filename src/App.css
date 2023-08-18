@@ -31,14 +31,17 @@
   justify-content: start;
 }
 
-.Board {
+.Board, .DisplayKeyboard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: clamp(5px, 2vh, 30px);
 }
 
-.BoardRow {
+.Board {
+  margin: clamp(10px, 3vh, 30px) 0;
+}
+
+.BoardRow, .KeyboardRow {
   flex: 1;
   display: flex;
 }
@@ -60,4 +63,18 @@
 
 .bgGray {
   background-color: #3a3a3a;
+}
+
+.DisplayKey {
+  background-color: gray;
+  margin: 3px;
+  font-size: clamp(24px, 2vw, 38px);
+  min-width: clamp(30px, 2vw, 45px);
+  border-radius: 5px;
+  border: thin solid gray;
+  color: #e0e0e0;
+}
+
+.DisplayKey#Enter {
+  font-size: clamp(16px, 1.5vw, 24px);
 }

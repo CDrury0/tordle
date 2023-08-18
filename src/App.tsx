@@ -42,16 +42,18 @@ function App() {
 			const input = e.key.toUpperCase()
 			if (alphabet.includes(input)) {
 				addLetterToGuess(input);
-				window.removeEventListener("keydown", listenerCallback);
 			}
-			else if (input === "BACKSPACE") {
+			else if (["BACKSPACE","←"].includes(input)) {
 				removeLetterFromGuess();
-				window.removeEventListener("keydown", listenerCallback);
 			}
 			else if (input === "ENTER") {
+				e.preventDefault();
 				submitGuess();
-				window.removeEventListener("keydown", listenerCallback);
 			}
+			else {
+				return;
+			}
+			window.removeEventListener("keydown", listenerCallback);
 		}
 	};
 

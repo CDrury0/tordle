@@ -1,3 +1,4 @@
+import { ReactElement } from "react"
 import DisplayKey from "./DisplayKey"
 
 interface DisplayKeyboardProps {
@@ -11,19 +12,38 @@ const DisplayKeyboard: React.FC<DisplayKeyboardProps> = ({ addLetterFunc, remove
     const midRow = mapCharsToRow("ASDFGHJKL", addLetterFunc);
     const botRow = mapCharsToRow("ZXCVBNM", addLetterFunc);
     return (
-        <></>
+        <div className="DisplayKeyboard">
+            <div className="KeyboardRow">
+                {topRow}
+            </div>
+            <div className="KeyboardRow">
+                {midRow}
+            </div>
+            <div className="KeyboardRow">
+                <DisplayKey
+                    value="ENTER"
+                    action={submitFunc}
+                    id="Enter"
+                />
+                {botRow}
+                <DisplayKey
+                    value="←"
+                    action={removeLetterFunc}
+                />
+            </div>
+        </div>
     );
 }
 
 const mapCharsToRow = (chars: string, action: (input: string) => void) => {
-    return chars.split("").map((val, index) => {
-        <div className="KeyboardRow">
+    return chars.split("").map((val, index): ReactElement => {
+        return (
             <DisplayKey
-                value={val}
-                index={index}
-                action={action}
+            value={val}
+            key={index}
+            action={action}
             />
-        </div>
+        );
     });
 }
 
