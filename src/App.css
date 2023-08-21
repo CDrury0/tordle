@@ -47,21 +47,22 @@
 }
 
 .BoardCell {
-  border: thin solid #e0e0e0;
+  font-size: clamp(32px, 3vw, 40px);
+  border: thin solid #3a3a3a;
   width: clamp(60px, 6.5vh, 80px);
   height: clamp(60px, 6.5vh, 80px);
   margin: 5px;
 }
 
-.bgGreen {
-  background-color: #107010;
+button.bgGreen, .bgGreen {
+  background-color: #538d4e;
 }
 
-.bgYellow {
-  background-color: #909010;
+button.bgYellow, .bgYellow {
+  background-color: #b59f3b;
 }
 
-.bgGray {
+button.bgGray, .bgGray {
   background-color: #3a3a3a;
 }
 
@@ -71,8 +72,12 @@
   font-size: clamp(24px, 2vw, 38px);
   min-width: clamp(30px, 2vw, 45px);
   border-radius: 5px;
-  border: thin solid gray;
   color: #e0e0e0;
+  border: none;
+}
+
+.DisplayKey:active {
+  background-color: #707070;
 }
 
 .DisplayKey#Enter {

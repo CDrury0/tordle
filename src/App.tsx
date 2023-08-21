@@ -5,13 +5,40 @@ import Board from './Components/Board';
 import DisplayKeyboard from './Components/DisplayKeyboard';
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-export const WordContext = createContext<string | undefined>(undefined);
-
+export const WordContext = createContext<string>("TESTY");
+export const LetterStatusContext = createContext<[string, string, string]>(["", "", ""]);
+	
 function App() {
 	const [guesses, setGuesses] = useState<string[]>([""]);
-	const [word, setWord] = useState<string>("AABAA");
+	const [word, setWord] = useState<string>("TESTY");
 	const [wordLength, setWordLength] = useState<number>(5);
 	const [numGuesses, setNumGuesses] = useState<number>(6);
+	const [letterStatus, setLetterStatus] = useState<[string, string, string]>(["", "", ""]);
+
+	useEffect(() => {
+		if (guesses.length === 1) {
+			setLetterStatus(["", "", ""]);
+			return;
+		}
+		let included = "", correct = "", unused = "";
+		//although this length starts at 1, the relevant result will never be generated until an empty string is pushed; when length is 2, 1 guess has been submitted
+		const indexOfLastValidGuess = guesses.length - 2;
+		for (let i = 0; i < wordLength; i++){
+			if (guesses[indexOfLastValidGuess][i] === word[i]) {
+				correct += guesses[indexOfLastValidGuess][i];
+			}
+			else if (word.includes(guesses[indexOfLastValidGuess][i])) {
+				included += guesses[indexOfLastValidGuess][i];
+			}
+			else {
+				unused += guesses[indexOfLastValidGuess][i];
+			}
+		}
+		included = included.split("").filter((val) => !letterStatus[0].includes(val)).toString();
+		correct = correct.split("").filter((val) => !letterStatus[1].includes(val)).toString();
+		unused = unused.split("").filter((val) => !letterStatus[2].includes(val)).toString();
+		setLetterStatus([letterStatus[0] + included, letterStatus[1] + correct, letterStatus[2] + unused]);
+	}, [guesses.length]);
 
 	const modifyCurrentGuess = (predicate: (g: string) => boolean, action: (g: string) => string) => {
 		const temp = guesses.slice();
@@ -63,11 +90,13 @@ function App() {
 
 	return (
 		<div className="App">
+			<Heading />
 			<WordContext.Provider value={word}>
-            	<Heading />
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
-				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} />
 			</WordContext.Provider>
+			<LetterStatusContext.Provider value={letterStatus}>
+				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} />
+			</LetterStatusContext.Provider>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { WordContext } from "../App"
 
 interface BoardCellProps {
@@ -13,7 +13,7 @@ const BoardCell: React.FC<BoardCellProps> = ({ val, row, guesses }) => {
     const currentWord = useContext(WordContext)!;
     let classList = "BoardCell ";
     if (guesses?.length - 1 > row) {
-        classList += setCellBackground(currentWord, charHeld, val);
+        classList += getBackgroundClass(currentWord, charHeld, val);
     }
     return (
         <div className={classList}>
@@ -22,11 +22,11 @@ const BoardCell: React.FC<BoardCellProps> = ({ val, row, guesses }) => {
     );
 }
 
-const setCellBackground = (word: string, charHeld: string, col: number): string => {
+const getBackgroundClass = (word: string, charHeld: string, col: number): string => {
     if (word[col] === charHeld) {
         return "bgGreen";
     }
-    else if (word.includes(charHeld)) {
+    if (word.includes(charHeld)) {
         return "bgYellow";
     }
     return "bgGray";
