@@ -3,17 +3,30 @@ import './App.css';
 import Heading from './Components/Heading';
 import Board from './Components/Board';
 import DisplayKeyboard from './Components/DisplayKeyboard';
+import RawBank from "./WordBank.json";
 
+const wordBank = RawBank as BankObj;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const WordContext = createContext<string>("TESTY");
 export const LetterStatusContext = createContext<[string, string, string]>(["", "", ""]);
+
+interface BankObj {
+	[key5: string]: string[]
+}
+
+const getRandomWord = (wordLength: number): string => {
+	const listAtLength = wordBank[wordLength];
+	return listAtLength[Math.floor(listAtLength.length * Math.random())].toUpperCase();
+}
 	
 function App() {
 	const [guesses, setGuesses] = useState<string[]>([""]);
-	const [word, setWord] = useState<string>("TESTY");
 	const [wordLength, setWordLength] = useState<number>(5);
 	const [numGuesses, setNumGuesses] = useState<number>(6);
+	const [word, setWord] = useState<string>(getRandomWord(wordLength));
 	const [letterStatus, setLetterStatus] = useState<[string, string, string]>(["", "", ""]);
+
+	console.log(word);
 
 	useEffect(() => {
 		if (guesses.length === 1) {
@@ -22,21 +35,25 @@ function App() {
 		}
 		let included = "", correct = "", unused = "";
 		//although this length starts at 1, the relevant result will never be generated until an empty string is pushed; when length is 2, 1 guess has been submitted
-		const indexOfLastValidGuess = guesses.length - 2;
+		const lastValidGuess = guesses[guesses.length - 2];
+		console.log(lastValidGuess);
 		for (let i = 0; i < wordLength; i++){
-			if (guesses[indexOfLastValidGuess][i] === word[i]) {
-				correct += guesses[indexOfLastValidGuess][i];
+			if (lastValidGuess[i] === word[i]) {
+				correct += lastValidGuess[i];
 			}
-			else if (word.includes(guesses[indexOfLastValidGuess][i])) {
-				included += guesses[indexOfLastValidGuess][i];
+			else if (word.includes(lastValidGuess[i])) {
+				included += lastValidGuess[i];
 			}
 			else {
-				unused += guesses[indexOfLastValidGuess][i];
+				unused += lastValidGuess[i];
 			}
 		}
 		included = included.split("").filter((val) => !letterStatus[0].includes(val)).toString();
+		console.log("included: " + included);
 		correct = correct.split("").filter((val) => !letterStatus[1].includes(val)).toString();
+		console.log("correct: " + correct);
 		unused = unused.split("").filter((val) => !letterStatus[2].includes(val)).toString();
+		console.log("unused: " + unused);
 		setLetterStatus([letterStatus[0] + included, letterStatus[1] + correct, letterStatus[2] + unused]);
 	}, [guesses.length]);
 
