@@ -3,9 +3,11 @@ import './App.css';
 import Heading from './Components/Heading';
 import Board from './Components/Board';
 import DisplayKeyboard from './Components/DisplayKeyboard';
-import RawBank from "./WordBank.json";
+import Alert from './Components/Alert'
+import RawBank from './WordBank.json';
 
-const wordBank = RawBank as BankObj;
+const wordBankL = RawBank as BankObj;
+const wordBank = { 5: wordBankL[5].map((val) => { return val.toUpperCase() }) } as BankObj;
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const WordContext = createContext<string>("TESTY");
 export const LetterStatusContext = createContext<[string, string, string]>(["", "", ""]);
@@ -16,7 +18,7 @@ interface BankObj {
 
 const getRandomWord = (wordLength: number): string => {
 	const listAtLength = wordBank[wordLength];
-	return listAtLength[Math.floor(listAtLength.length * Math.random())].toUpperCase();
+	return listAtLength[Math.floor(listAtLength.length * Math.random())];
 }
 	
 function App() {
@@ -25,6 +27,7 @@ function App() {
 	const [numGuesses, setNumGuesses] = useState<number>(6);
 	const [word, setWord] = useState<string>(getRandomWord(wordLength));
 	const [letterStatus, setLetterStatus] = useState<[string, string, string]>(["", "", ""]);
+	const [alertMessage, setAlertMessage] = useState<string>("");
 
 	console.log(word);
 
@@ -66,6 +69,7 @@ function App() {
 		}
 		temp.push(tempLastGuess!);
 		setGuesses(temp);
+		setAlertMessage(" ");
 	};
 
 	const addLetterToGuess = (input: string) => {
@@ -77,8 +81,15 @@ function App() {
 	};
 
 	const submitGuess = () => {
-		const newGuesses = guesses.slice().pop()!.length === wordLength ? [...guesses, ""] : [...guesses];
-		setGuesses(newGuesses);
+		if (guesses[guesses.length - 1].length === wordLength) {
+			if (wordBank[wordLength].includes(guesses[guesses.length - 1])) {
+				setGuesses([...guesses, ""]);
+				return;
+			}
+			setAlertMessage("Guess not found in word bank");
+			return;
+		}
+		setAlertMessage("Guess must contain " + wordLength + " letters");
 	};
 
 	const listenerCallback = (e: KeyboardEvent) => {
@@ -87,7 +98,7 @@ function App() {
 			if (alphabet.includes(input)) {
 				addLetterToGuess(input);
 			}
-			else if (["BACKSPACE","←"].includes(input)) {
+			else if (["BACKSPACE", "←"].includes(input)) {
 				removeLetterFromGuess();
 			}
 			else if (input === "ENTER") {
@@ -108,6 +119,7 @@ function App() {
 	return (
 		<div className="App">
 			<Heading />
+			<Alert alertMessage={alertMessage} />
 			<WordContext.Provider value={word}>
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
 			</WordContext.Provider>
