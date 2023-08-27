@@ -5,12 +5,14 @@ interface DisplayKeyboardProps {
     addLetterFunc: (input: string) => void
     removeLetterFunc: () => void
     submitFunc: () => void
+    allowInput: boolean
 }
 
-const DisplayKeyboard: React.FC<DisplayKeyboardProps> = ({ addLetterFunc, removeLetterFunc, submitFunc }) => {
-    const topRow = mapCharsToRow("QWERTYUIOP", addLetterFunc);
-    const midRow = mapCharsToRow("ASDFGHJKL", addLetterFunc);
-    const botRow = mapCharsToRow("ZXCVBNM", addLetterFunc);
+const DisplayKeyboard: React.FC<DisplayKeyboardProps> = ({ addLetterFunc, removeLetterFunc, submitFunc, allowInput }) => {
+    const emptyFunc = () => { };
+    const topRow = mapCharsToRow("QWERTYUIOP", addLetterFunc, allowInput, emptyFunc);
+    const midRow = mapCharsToRow("ASDFGHJKL", addLetterFunc, allowInput, emptyFunc);
+    const botRow = mapCharsToRow("ZXCVBNM", addLetterFunc, allowInput, emptyFunc);
     return (
         <div className="DisplayKeyboard">
             <div className="KeyboardRow">
@@ -22,26 +24,26 @@ const DisplayKeyboard: React.FC<DisplayKeyboardProps> = ({ addLetterFunc, remove
             <div className="KeyboardRow">
                 <DisplayKey
                     value="ENTER"
-                    action={submitFunc}
+                    action={allowInput ? submitFunc : emptyFunc}
                     id="Enter"
                 />
                 {botRow}
                 <DisplayKey
                     value="←"
-                    action={removeLetterFunc}
+                    action={allowInput ? removeLetterFunc : emptyFunc}
                 />
             </div>
         </div>
     );
 }
 
-const mapCharsToRow = (chars: string, action: (input: string) => void) => {
+const mapCharsToRow = (chars: string, action: (input: string) => void, allowInput: boolean, emptyFunc: () => void) => {
     return chars.split("").map((val, index): ReactElement => {
         return (
             <DisplayKey
             value={val}
             key={index}
-            action={action}
+            action={allowInput ? action : emptyFunc}
             />
         );
     });

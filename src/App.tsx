@@ -16,24 +16,28 @@ interface BankObj {
 	[key5: string]: string[]
 }
 
+type TripleStringTuple = [string, string, string];
+
 const getRandomWord = (wordLength: number): string => {
 	const listAtLength = wordBank[wordLength];
 	return listAtLength[Math.floor(listAtLength.length * Math.random())];
 }
-	
+
 function App() {
+	const letterStatusDefault: TripleStringTuple = ["", "", ""];
 	const [guesses, setGuesses] = useState<string[]>([""]);
 	const [wordLength, setWordLength] = useState<number>(5);
 	const [numGuesses, setNumGuesses] = useState<number>(6);
 	const [word, setWord] = useState<string>(getRandomWord(wordLength));
-	const [letterStatus, setLetterStatus] = useState<[string, string, string]>(["", "", ""]);
+	const [letterStatus, setLetterStatus] = useState<TripleStringTuple>(letterStatusDefault);
 	const [alertMessage, setAlertMessage] = useState<string>("");
+	const [allowInput, setAllowInput] = useState<boolean>(true);
 
 	console.log(word);
 
 	useEffect(() => {
 		if (guesses.length === 1) {
-			setLetterStatus(["", "", ""]);
+			setLetterStatus(letterStatusDefault);
 			return;
 		}
 		let included = "", correct = "", unused = "";
@@ -69,7 +73,7 @@ function App() {
 		}
 		temp.push(tempLastGuess!);
 		setGuesses(temp);
-		setAlertMessage(" ");
+		setAlertMessage("");
 	};
 
 	const addLetterToGuess = (input: string) => {
@@ -80,20 +84,39 @@ function App() {
 		modifyCurrentGuess((g: string) => g.length > 0, (g: string) => g.slice(0, -1));
 	};
 
+	const validateGuess = (lastGuess: string, guessesUsed: number) => {
+		if (lastGuess === word) {
+			//activate modal for victory
+			console.log("win");
+		}
+		else if (guessesUsed === numGuesses) {
+			//activate modal for loss
+			console.log("lose");
+		}
+		else {
+			return;
+		}
+		setAllowInput(false);
+	};
+
 	const submitGuess = () => {
-		if (guesses[guesses.length - 1].length === wordLength) {
-			if (wordBank[wordLength].includes(guesses[guesses.length - 1])) {
+		const lastGuess = guesses[guesses.length - 1];
+		if (lastGuess.length === wordLength) {
+			if (wordBank[wordLength].includes(lastGuess)) {
+				validateGuess(lastGuess, guesses.length);
 				setGuesses([...guesses, ""]);
 				return;
 			}
 			setAlertMessage("Guess not found in word bank");
+			setGuesses([...guesses]);
 			return;
 		}
 		setAlertMessage("Guess must contain " + wordLength + " letters");
+		setGuesses([...guesses]);
 	};
 
 	const listenerCallback = (e: KeyboardEvent) => {
-		if (!e.repeat) {
+		if (!e.repeat && allowInput) {
 			const input = e.key.toUpperCase()
 			if (alphabet.includes(input)) {
 				addLetterToGuess(input);
@@ -116,15 +139,23 @@ function App() {
 		window.addEventListener("keydown", listenerCallback);
 	}, [guesses]);
 
+	const newWordFunc = () => {
+		setWord(getRandomWord(wordLength));
+		setGuesses([""]);
+		setLetterStatus(letterStatusDefault);
+		setAlertMessage("");
+		setAllowInput(true);
+	};
+
 	return (
 		<div className="App">
-			<Heading />
+			<Heading newWordFunc={newWordFunc}/>
 			<Alert alertMessage={alertMessage} />
 			<WordContext.Provider value={word}>
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
 			</WordContext.Provider>
 			<LetterStatusContext.Provider value={letterStatus}>
-				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} />
+				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} allowInput={allowInput} />
 			</LetterStatusContext.Provider>
         </div>
     );

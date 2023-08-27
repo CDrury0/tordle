@@ -3,15 +3,19 @@
 }
 
 :root {
-  background-color: #101010;
-  color: #e0e0e0;
+  --dark-gray: #3a3a3a;
+  --light-gray: #707070;
+  --black: #101010;
+  --white: #e0e0e0;
+  background-color: var(--black);
+  color: var(--white);
 }
 
 .Heading {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid #3a3a3a;
+  border-bottom: 1px solid var(--dark-gray);
 }
 
 .Heading > * {
@@ -21,6 +25,7 @@
 #rightHead, #leftHead {
   display: flex;
   align-items: center;
+  margin: 0 clamp(10px, 1vw, 25px);
 }
 
 #rightHead {
@@ -48,7 +53,7 @@
 
 .BoardCell {
   font-size: clamp(32px, 3vw, 40px);
-  border: thin solid #3a3a3a;
+  border: thin solid var(--dark-gray);
   width: clamp(60px, 6.5vh, 80px);
   height: clamp(60px, 6.5vh, 80px);
   margin: 5px;
@@ -63,7 +68,7 @@ button.bgYellow, .bgYellow {
 }
 
 button.bgGray, .bgGray {
-  background-color: #3a3a3a;
+  background-color: var(--dark-gray);
 }
 
 .DisplayKey {
@@ -72,14 +77,22 @@ button.bgGray, .bgGray {
   font-size: clamp(24px, 2vw, 38px);
   min-width: clamp(30px, 2vw, 45px);
   border-radius: 5px;
-  color: #e0e0e0;
+  color: var(--white);
   border: none;
 }
 
-.DisplayKey:active {
-  background-color: #707070;
+.DisplayKey:active, button:active {
+  background-color: var(--light-gray);
 }
 
 .DisplayKey#Enter {
   font-size: clamp(16px, 1.5vw, 24px);
+}
+
+button {
+  background-color: var(--dark-gray);
+  border: thin solid var(--white);
+  border-radius: 3px;
+  color: var(--white);
+  font-size: clamp(20px, 2.5vw, 24px);
 }
