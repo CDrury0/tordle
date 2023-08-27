@@ -1,13 +1,9 @@
 
-interface AlertProps {
-    alertMessage: string
-}
-
-const Alert: React.FC<AlertProps> = ({ alertMessage }) => {
+const Alert: React.FC<{alertMessage: string}> = ({ alertMessage }) => {
     return (
-        <>
-            <span className="Alert">{alertMessage}</span>
-        </>
+        <div className="Alert">
+            <span>{alertMessage}</span>
+        </div>
     );
 }
 

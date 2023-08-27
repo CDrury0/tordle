@@ -6,11 +6,13 @@ import DisplayKeyboard from './Components/DisplayKeyboard';
 import Alert from './Components/Alert'
 import RawBank from './WordBank.json';
 
+//this will be unwieldy to repeat for each bank of words when other lengths are added
 const wordBankL = RawBank as BankObj;
 const wordBank = { 5: wordBankL[5].map((val) => { return val.toUpperCase() }) } as BankObj;
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const WordContext = createContext<string>("TESTY");
-export const LetterStatusContext = createContext<[string, string, string]>(["", "", ""]);
+export const LetterStatusContext = createContext<TripleStringTuple>(["", "", ""]);
 
 interface BankObj {
 	[key5: string]: string[]
@@ -33,8 +35,6 @@ function App() {
 	const [alertMessage, setAlertMessage] = useState<string>("");
 	const [allowInput, setAllowInput] = useState<boolean>(true);
 
-	console.log(word);
-
 	useEffect(() => {
 		if (guesses.length === 1) {
 			setLetterStatus(letterStatusDefault);
@@ -43,7 +43,6 @@ function App() {
 		let included = "", correct = "", unused = "";
 		//although this length starts at 1, the relevant result will never be generated until an empty string is pushed; when length is 2, 1 guess has been submitted
 		const lastValidGuess = guesses[guesses.length - 2];
-		console.log(lastValidGuess);
 		for (let i = 0; i < wordLength; i++){
 			if (lastValidGuess[i] === word[i]) {
 				correct += lastValidGuess[i];
@@ -56,11 +55,8 @@ function App() {
 			}
 		}
 		included = included.split("").filter((val) => !letterStatus[0].includes(val)).toString();
-		console.log("included: " + included);
 		correct = correct.split("").filter((val) => !letterStatus[1].includes(val)).toString();
-		console.log("correct: " + correct);
 		unused = unused.split("").filter((val) => !letterStatus[2].includes(val)).toString();
-		console.log("unused: " + unused);
 		setLetterStatus([letterStatus[0] + included, letterStatus[1] + correct, letterStatus[2] + unused]);
 	}, [guesses.length]);
 
@@ -86,12 +82,10 @@ function App() {
 
 	const validateGuess = (lastGuess: string, guessesUsed: number) => {
 		if (lastGuess === word) {
-			//activate modal for victory
-			console.log("win");
+			setAlertMessage("Excellent! The word was " + word);
 		}
 		else if (guessesUsed === numGuesses) {
-			//activate modal for loss
-			console.log("lose");
+			setAlertMessage("You ran out of guesses! The word was " + word);
 		}
 		else {
 			return;
@@ -136,7 +130,9 @@ function App() {
 	};
 
 	useEffect(() => {
-		window.addEventListener("keydown", listenerCallback);
+		if (allowInput) {
+			window.addEventListener("keydown", listenerCallback);
+		}
 	}, [guesses]);
 
 	const newWordFunc = () => {

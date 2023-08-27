@@ -74,7 +74,7 @@ button.bgGray, .bgGray {
 .DisplayKey {
   background-color: gray;
   margin: 3px;
-  font-size: clamp(24px, 2vw, 38px);
+  font-size: clamp(22px, 2vw, 36px);
   min-width: clamp(30px, 2vw, 45px);
   border-radius: 5px;
   color: var(--white);
@@ -95,4 +95,14 @@ button {
   border-radius: 3px;
   color: var(--white);
   font-size: clamp(20px, 2.5vw, 24px);
+}
+
+a, a:visited {
+  color: var(--white);
+  font-size: 20px;
+}
+
+.Alert {
+  margin: clamp(10px, 3vh, 30px) 0 0 0;
+  min-height: 24px;
 }
