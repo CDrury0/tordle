@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/tordle/static/css/main.6dd90708.css",
-    "main.js": "/tordle/static/js/main.b8cec0ba.js",
-    "index.html": "/tordle/index.html",
-    "main.6dd90708.css.map": "/tordle/static/css/main.6dd90708.css.map",
-    "main.b8cec0ba.js.map": "/tordle/static/js/main.b8cec0ba.js.map"
+    "main.css": "/static/css/main.6dd90708.css",
+    "main.js": "/static/js/main.b8cec0ba.js",
+    "index.html": "/index.html",
+    "main.6dd90708.css.map": "/static/css/main.6dd90708.css.map",
+    "main.b8cec0ba.js.map": "/static/js/main.b8cec0ba.js.map"
   },
   "entrypoints": [
     "static/css/main.6dd90708.css",
