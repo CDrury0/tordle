@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/tordle/static/css/main.8d523d79.css",
+    "main.css": "/tordle/static/css/main.b474755d.css",
     "main.js": "/tordle/static/js/main.3a69d2b0.js",
     "index.html": "/tordle/index.html",
-    "main.8d523d79.css.map": "/tordle/static/css/main.8d523d79.css.map",
+    "main.b474755d.css.map": "/tordle/static/css/main.b474755d.css.map",
     "main.3a69d2b0.js.map": "/tordle/static/js/main.3a69d2b0.js.map"
   },
   "entrypoints": [
-    "static/css/main.8d523d79.css",
+    "static/css/main.b474755d.css",
     "static/js/main.3a69d2b0.js"
   ]
 }
