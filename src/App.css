@@ -16,6 +16,7 @@
   flex-direction: row;
   justify-content: space-between;
   border-bottom: 1px solid var(--dark-gray);
+  height: 95px;
 }
 
 .Heading > * {
@@ -25,7 +26,7 @@
 #rightHead, #leftHead {
   display: flex;
   align-items: center;
-  margin: 0 clamp(10px, 1vw, 25px);
+  margin: 0 clamp(0px, 1vw, 15px);
 }
 
 #rightHead {
@@ -54,8 +55,8 @@
 .BoardCell {
   font-size: clamp(32px, 3vw, 40px);
   border: thin solid var(--dark-gray);
-  width: clamp(60px, 6.5vh, 80px);
-  height: clamp(60px, 6.5vh, 80px);
+  width: clamp(45px, 6.5vh, 60px);
+  height: clamp(45px, 6.5vh, 60px);
   margin: 5px;
 }
 
@@ -94,7 +95,7 @@ button {
   border: thin solid var(--white);
   border-radius: 3px;
   color: var(--white);
-  font-size: clamp(20px, 2.5vw, 24px);
+  font-size: clamp(20px, 2.5vw, 28px);
 }
 
 a, a:visited {
@@ -103,6 +104,25 @@ a, a:visited {
 }
 
 .Alert {
-  margin: clamp(10px, 3vh, 30px) 0 0 0;
+  margin: clamp(5px, 3vh, 15px) 0 0 0;
   min-height: 24px;
+}
+
+.OptionsMenu {
+  position: fixed;
+  top: 90px;
+  right: 5px;
+  background-color: var(--dark-gray);
+}
+
+#lengthControls {
+  border: thin solid var(--white);
+  border-radius: 3px;
+  padding: 3px;
+  margin-top: 3px;
+  font-size: clamp(16px, 2.5vw, 22px);
+}
+
+#lengthControls > button {
+  margin: 0 5px;
 }

@@ -7,20 +7,28 @@ import Alert from './Components/Alert'
 import RawBank from './WordBank.json';
 
 //this will be unwieldy to repeat for each bank of words when other lengths are added
-const wordBankL = RawBank as BankObj;
-const wordBank = { 5: wordBankL[5].map((val) => { return val.toUpperCase() }) } as BankObj;
+interface BankObj {
+	"4": string[],
+	"5": string[],
+	"6": string[]
+}
+
+export type LengthValues = 4 | 5 | 6;
+type TripleStringTuple = [string, string, string];
+
+const wordBankImport: BankObj = RawBank;
+const wordBank: BankObj = {
+	4: wordBankImport[4].map((val): string => { return val.toUpperCase() }),
+	5: wordBankImport[5].map((val): string => { return val.toUpperCase() }),
+	6: wordBankImport[6].map((val): string => { return val.toUpperCase() })
+};
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const WordContext = createContext<string>("TESTY");
 export const LetterStatusContext = createContext<TripleStringTuple>(["", "", ""]);
+export const MIN_LENGTH: LengthValues = 4, MAX_LENGTH: LengthValues = 6;
 
-interface BankObj {
-	[key5: string]: string[]
-}
-
-type TripleStringTuple = [string, string, string];
-
-const getRandomWord = (wordLength: number): string => {
+const getRandomWord = (wordLength: LengthValues): string => {
 	const listAtLength = wordBank[wordLength];
 	return listAtLength[Math.floor(listAtLength.length * Math.random())];
 }
@@ -28,8 +36,8 @@ const getRandomWord = (wordLength: number): string => {
 function App() {
 	const letterStatusDefault: TripleStringTuple = ["", "", ""];
 	const [guesses, setGuesses] = useState<string[]>([""]);
-	const [wordLength, setWordLength] = useState<number>(5);
-	const [numGuesses, setNumGuesses] = useState<number>(6);
+	const [wordLength, setWordLength] = useState<LengthValues>(5);
+	const [numGuesses, setNumGuesses] = useState<number>(wordLength + 1);
 	const [word, setWord] = useState<string>(getRandomWord(wordLength));
 	const [letterStatus, setLetterStatus] = useState<TripleStringTuple>(letterStatusDefault);
 	const [alertMessage, setAlertMessage] = useState<string>("");
@@ -137,15 +145,20 @@ function App() {
 
 	const newWordFunc = () => {
 		setWord(getRandomWord(wordLength));
+		setNumGuesses(wordLength + 1);
 		setGuesses([""]);
 		setLetterStatus(letterStatusDefault);
 		setAlertMessage("");
 		setAllowInput(true);
 	};
 
+	useEffect(() => {
+		newWordFunc();
+	}, [wordLength]);
+
 	return (
 		<div className="App">
-			<Heading newWordFunc={newWordFunc}/>
+			<Heading newWordFunc={newWordFunc} setWordLength={setWordLength} wordLength={wordLength}/>
 			<Alert alertMessage={alertMessage} />
 			<WordContext.Provider value={word}>
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />

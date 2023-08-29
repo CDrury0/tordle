@@ -1,11 +1,26 @@
+import { LengthValues, MIN_LENGTH, MAX_LENGTH } from "../App";
 
-const Heading: React.FC<{newWordFunc : () => void}> = ({ newWordFunc }) => {
+interface HeadingProps {
+    newWordFunc: () => void,
+    setWordLength: (value: LengthValues) => void, 
+    wordLength: LengthValues
+}
+
+const Heading: React.FC<HeadingProps> = ({ newWordFunc, setWordLength, wordLength }) => {
     return (
         <div className="Heading">
             <div id="leftHead">
-                <button onClick={newWordFunc}>
-                    New Word
-                </button>
+                <div>
+                    <button onClick={newWordFunc}>
+                        New Word
+                    </button>
+                    <br />
+                    <div id="lengthControls">
+                        <button onClick={wordLength === MIN_LENGTH ? () => {} : () => {setWordLength(wordLength - 1 as LengthValues)}}>-</button>
+                        Length: {wordLength}
+                        <button onClick={wordLength === MAX_LENGTH ? () => {} : () => {setWordLength(wordLength + 1 as LengthValues)}}>+</button>
+                    </div>
+                </div>
             </div>
             <div>
                 <h1>Tordle</h1>
