@@ -76,7 +76,8 @@ button.bgGray, .bgGray {
   background-color: gray;
   margin: 3px;
   font-size: clamp(22px, 2vw, 36px);
-  min-width: clamp(30px, 2vw, 45px);
+  min-width: clamp(35px, 2vw, 50px);
+  min-height: clamp(40px, 2vh, 60px);
   border-radius: 5px;
   color: var(--white);
   border: none;
