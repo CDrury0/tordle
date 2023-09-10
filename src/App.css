@@ -23,6 +23,11 @@
   flex: 1;
 }
 
+h1 {
+  font-size: clamp(20px, 3vw, 32px);
+  align-self: center;
+}
+
 #rightHead, #leftHead {
   display: flex;
   align-items: center;

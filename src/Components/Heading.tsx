@@ -27,9 +27,7 @@ const Heading: React.FC<HeadingProps> = ({ newWordFunc, setWordLength, enableHow
                     </div>
                 </div>
             </div>
-            <div>
-                <h1>Tordle</h1>
-            </div>
+            <h1>Tordle</h1>
             <div id="rightHead">
                 <button onClick={enableHowTo}><img src={helpLogo} alt="Help logo"></img></button>
                 <button onClick={enableStats}><img src={statsLogo} alt="Stats logo"></img></button>
