@@ -1,10 +1,13 @@
-import {useEffect, useState, createContext} from 'react';
+import {useEffect, useState, createContext, ReactElement} from 'react';
 import './App.css';
 import Heading from './Components/Heading';
 import Board from './Components/Board';
 import DisplayKeyboard from './Components/DisplayKeyboard';
 import Alert from './Components/Alert'
+import Modal from './Components/Modal';
 import RawBank from './WordBank.json';
+import HowTo from './Components/HowTo';
+import Stats from './Components/Stats';
 
 //this will be unwieldy to repeat for each bank of words when other lengths are added
 interface BankObj {
@@ -42,6 +45,7 @@ function App() {
 	const [letterStatus, setLetterStatus] = useState<TripleStringTuple>(letterStatusDefault);
 	const [alertMessage, setAlertMessage] = useState<string>("");
 	const [allowInput, setAllowInput] = useState<boolean>(true);
+	const [modalContent, setModalContent] = useState<ReactElement | null>(null);
 
 	useEffect(() => {
 		if (guesses.length === 1) {
@@ -158,7 +162,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Heading newWordFunc={newWordFunc} setWordLength={setWordLength} wordLength={wordLength}/>
+			<Heading newWordFunc={newWordFunc} setWordLength={setWordLength} enableHowTo={() => setModalContent(<HowTo />)} enableStats={() => setModalContent(<Stats />)} wordLength={wordLength} />
 			<Alert alertMessage={alertMessage} />
 			<WordContext.Provider value={word}>
 				<Board numGuesses={numGuesses} wordLength={wordLength} guesses={guesses} />
@@ -166,7 +170,8 @@ function App() {
 			<LetterStatusContext.Provider value={letterStatus}>
 				<DisplayKeyboard addLetterFunc={addLetterToGuess} removeLetterFunc={removeLetterFromGuess} submitFunc={submitGuess} allowInput={allowInput} />
 			</LetterStatusContext.Provider>
-        </div>
+			<Modal innerContent={modalContent} disableModal={() => setModalContent(null)} />
+		</div>
     );
 }
 

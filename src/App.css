@@ -33,6 +33,15 @@
   justify-content: end;
 }
 
+#rightHead > * {
+  margin: 0 3px;
+}
+
+button > img {
+  max-width: 32px;
+  max-height: 32px;
+}
+
 #leftHead {
   justify-content: start;
 }
@@ -44,7 +53,7 @@
 }
 
 .Board {
-  margin: clamp(10px, 3vh, 30px) 0;
+  margin: clamp(5px, 2.5vh, 25px) 0;
 }
 
 .BoardRow, .KeyboardRow {
@@ -121,9 +130,70 @@ a, a:visited {
   border-radius: 3px;
   padding: 3px;
   margin-top: 3px;
-  font-size: clamp(14px, 2.5vw, 20px);
+  font-size: clamp(12px, 2vw, 18px);
 }
 
 #lengthControls > button {
   margin: 0 5px;
+}
+
+.ModalBack {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 15, 15, 0.5);
+}
+
+@media (max-width: 1667px){
+  .Modal {
+    width: clamp(200px, 80vw, 1000px);
+    left: clamp(50px, 10vw, 400px);
+  }
+}
+
+@media (min-width: 1668px) {
+  .Modal {
+    width: 1000px;
+    left: calc(50vw - 500px);
+  }
+}
+
+.Modal {
+  position: relative;
+  background-color: var(--dark-gray);
+  top: 2.5vh;
+  border-radius: 8px;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.HowTo {
+  display: flex;
+  flex-direction: column;
+}
+
+.HowTo > h4, .howToPanel > h4 {
+  font-size: clamp(10px, 1.5vw, 18px);
+}
+
+.howToPanel {
+  flex: 1;
+  display: flex;
+  margin: 1vh 2vw;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.howToPanel > * {
+  max-width: 28vw;
+}
+
+.howToImage {
+  background-image: url("./Images/tut1.png");
 }

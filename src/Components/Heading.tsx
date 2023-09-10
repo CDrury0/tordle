@@ -1,12 +1,17 @@
 import { LengthValues, MIN_LENGTH, MAX_LENGTH } from "../App";
+import ghLogo from "../Images/github-mark.svg";
+import statsLogo from "../Images/stats.png";
+import helpLogo from "../Images/help.png";
 
 interface HeadingProps {
     newWordFunc: () => void,
-    setWordLength: (value: LengthValues) => void, 
+    setWordLength: (value: LengthValues) => void,
+    enableHowTo: () => void,
+    enableStats: () => void,
     wordLength: LengthValues
 }
 
-const Heading: React.FC<HeadingProps> = ({ newWordFunc, setWordLength, wordLength }) => {
+const Heading: React.FC<HeadingProps> = ({ newWordFunc, setWordLength, enableHowTo, enableStats, wordLength }) => {
     return (
         <div className="Heading">
             <div id="leftHead">
@@ -26,7 +31,9 @@ const Heading: React.FC<HeadingProps> = ({ newWordFunc, setWordLength, wordLengt
                 <h1>Tordle</h1>
             </div>
             <div id="rightHead">
-                <h4><a href='https://github.com/cdrury0' rel='noreferrer' target='_blank'>My GitHub</a></h4>
+                <button onClick={enableHowTo}><img src={helpLogo} alt="Help logo"></img></button>
+                <button onClick={enableStats}><img src={statsLogo} alt="Stats logo"></img></button>
+                <a href='https://github.com/cdrury0' rel='noreferrer' target='_blank'><button><img src={ghLogo} alt="GitHub logo"></img></button></a>
             </div>
         </div>
     );
