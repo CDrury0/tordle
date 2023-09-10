@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/tordle/static/css/main.7cb8bbf6.css",
+    "main.css": "/tordle/static/css/main.f505829b.css",
     "main.js": "/tordle/static/js/main.f279d673.js",
     "static/media/tut4.png": "/tordle/static/media/tut4.f1300e59f2756feca6ac.png",
     "static/media/github-mark.svg": "/tordle/static/media/github-mark.f0bf80dc01350e94e601a6a41533545e.svg",
     "index.html": "/tordle/index.html",
-    "main.7cb8bbf6.css.map": "/tordle/static/css/main.7cb8bbf6.css.map",
+    "main.f505829b.css.map": "/tordle/static/css/main.f505829b.css.map",
     "main.f279d673.js.map": "/tordle/static/js/main.f279d673.js.map"
   },
   "entrypoints": [
-    "static/css/main.7cb8bbf6.css",
+    "static/css/main.f505829b.css",
     "static/js/main.f279d673.js"
   ]
 }
