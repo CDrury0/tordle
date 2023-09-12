@@ -2,11 +2,12 @@ import LocalUtil from "../LocalUtil";
 
 const getAverage = (nums: number[]): number => {
     const sum = nums.reduce((i, val) => i + val);
-    console.log(sum);
     return Math.round((sum / nums.length) * 100) / 100;
 }
 
 const Stats: React.FC = () => {
+    console.log(LocalUtil.getLocalNum("numSolved5"));
+    console.log(localStorage.getItem("numSolved5"));
     return (
         <div className="ModalInner">
             <h2>Words Solved</h2>
@@ -36,6 +37,7 @@ const Stats: React.FC = () => {
                 <h2>6-Letter:</h2>
                 <h2>{getAverage(LocalUtil.getLocalNumArray("numGuessHistory6"))}</h2>
             </div>
+            <br/>
         </div>
     );
 }

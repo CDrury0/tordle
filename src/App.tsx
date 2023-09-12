@@ -36,8 +36,6 @@ const getRandomWord = (wordLength: LengthValues): string => {
 	return listAtLength[Math.floor(listAtLength.length * Math.random())];
 };
 
-localStorage.clear();
-
 function App() {
 	const letterStatusDefault: TripleStringTuple = ["", "", ""];
 	const [guesses, setGuesses] = useState<string[]>([""]);
@@ -48,8 +46,6 @@ function App() {
 	const [alertMessage, setAlertMessage] = useState<string>("");
 	const [allowInput, setAllowInput] = useState<boolean>(true);
 	const [modalContent, setModalContent] = useState<ReactElement | null>(null);
-	
-	console.log(word);
 
 	useEffect(() => {
 		if (guesses.length === 1) {
@@ -100,7 +96,7 @@ function App() {
 		if (lastGuess === word) {
 			setAlertMessage("Excellent! The word was " + word);
 			LocalUtil.setLocalNum("numSolved" + wordLength);
-			LocalUtil.setLocalNumArray("numGuessHistory" + wordLength, guesses.length - 1);
+			LocalUtil.setLocalNumArray("numGuessHistory" + wordLength, guesses.length);
 		}
 		else if (guessesUsed === numGuesses) {
 			setAlertMessage("You ran out of guesses! The word was " + word);
@@ -127,7 +123,8 @@ function App() {
 		setGuesses([...guesses]);
 	};
 
-	const listenerCallback = (e: KeyboardEvent) => {
+	//this causes issues... (duplicate input events)
+	/* const listenerCallback = (e: KeyboardEvent) => {
 		if (!e.repeat && allowInput) {
 			const input = e.key.toUpperCase()
 			if (alphabet.includes(input)) {
@@ -150,7 +147,7 @@ function App() {
 		if (allowInput) {
 			window.addEventListener("keydown", listenerCallback);
 		}
-	}, [guesses]);
+	}, [guesses]); */
 
 	const newWordFunc = () => {
 		setWord(getRandomWord(wordLength));

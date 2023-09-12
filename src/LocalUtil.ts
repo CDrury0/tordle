@@ -33,4 +33,5 @@ const setLocalNumArray = (key: string, valToAppend: number) => {
 	localStorage.setItem(key, localStorage.getItem(key) + " " + valToAppend);
 }
 
-export default { getLocalNum, setLocalNum, getLocalNumArray, setLocalNumArray };
+const LocalUtil = { getLocalNum, setLocalNum, getLocalNumArray, setLocalNumArray };
+export default LocalUtil;
