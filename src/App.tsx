@@ -8,8 +8,8 @@ import Modal from './Components/Modal';
 import RawBank from './WordBank.json';
 import HowTo from './Components/HowTo';
 import Stats from './Components/Stats';
+import LocalUtil from './LocalUtil';
 
-//this will be unwieldy to repeat for each bank of words when other lengths are added
 interface BankObj {
 	"4": string[],
 	"5": string[],
@@ -34,7 +34,9 @@ export const MIN_LENGTH: LengthValues = 4, MAX_LENGTH: LengthValues = 6;
 const getRandomWord = (wordLength: LengthValues): string => {
 	const listAtLength = wordBank[wordLength];
 	return listAtLength[Math.floor(listAtLength.length * Math.random())];
-}
+};
+
+localStorage.clear();
 
 function App() {
 	const letterStatusDefault: TripleStringTuple = ["", "", ""];
@@ -46,6 +48,8 @@ function App() {
 	const [alertMessage, setAlertMessage] = useState<string>("");
 	const [allowInput, setAllowInput] = useState<boolean>(true);
 	const [modalContent, setModalContent] = useState<ReactElement | null>(null);
+	
+	console.log(word);
 
 	useEffect(() => {
 		if (guesses.length === 1) {
@@ -95,6 +99,8 @@ function App() {
 	const validateGuess = (lastGuess: string, guessesUsed: number) => {
 		if (lastGuess === word) {
 			setAlertMessage("Excellent! The word was " + word);
+			LocalUtil.setLocalNum("numSolved" + wordLength);
+			LocalUtil.setLocalNumArray("numGuessHistory" + wordLength, guesses.length - 1);
 		}
 		else if (guessesUsed === numGuesses) {
 			setAlertMessage("You ran out of guesses! The word was " + word);
@@ -131,7 +137,6 @@ function App() {
 				removeLetterFromGuess();
 			}
 			else if (input === "ENTER") {
-				e.preventDefault();
 				submitGuess();
 			}
 			else {

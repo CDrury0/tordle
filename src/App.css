@@ -182,24 +182,24 @@ a, a:visited {
   right: 8px;
 }
 
-.HowTo {
+.ModalInner {
   display: flex;
   flex-direction: column;
 }
 
-.HowTo > h4, .howToPanel > h4 {
+.ModalInner > h4, .ModalInnerPanel > h4 {
   font-size: clamp(10px, 1.5vw, 18px);
 }
 
-.howToPanel {
+.ModalInnerPanel {
   flex: 1;
   display: flex;
   margin: 1vh 2vw;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
-.howToPanel > * {
+.ModalInnerPanel > * {
   max-width: 28vw;
 }
 

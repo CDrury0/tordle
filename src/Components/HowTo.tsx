@@ -5,20 +5,20 @@ import tut4 from "../Images/tut4.png";
 
 const HowTo: React.FC = () => {
     return (
-        <div className="HowTo">
+        <div className="ModalInner">
             <h2>How To Play</h2>
             <h4>
                 Start by guessing any word. Any guess that contains the correct number of
                 letters and is found in the word bank will be considered valid.
             </h4>
-            <div className="howToPanel">
+            <div className="ModalInnerPanel">
                 <img className="howToImage" src={tut1} alt="tutorial"></img>
                 <h4>
                     Our first guess has every letter grayed. This means none of the letters
                     are in the word we are looking for. Let's try another guess.
                 </h4>
             </div>
-            <div className="howToPanel">
+            <div className="ModalInnerPanel">
                 <img className="howToImage" src={tut2} alt="tutorial"></img>
                 <h4>
                     This time we have more information. The H is yellow, meaning there is an H
@@ -26,7 +26,7 @@ const HowTo: React.FC = () => {
                     an O in that exact spot in the word.
                 </h4>
             </div>
-            <div className="howToPanel">
+            <div className="ModalInnerPanel">
                 <img className="howToImage" src={tut3} alt="tutorial"></img>
                 <h4>
                     Getting closer! Using the clues from previous guesses, you can deduce which word
@@ -34,7 +34,7 @@ const HowTo: React.FC = () => {
                     letters are H, O, L. There aren't too many words it could possibly be given that clue.
                 </h4>
             </div>
-            <div className="howToPanel">
+            <div className="ModalInnerPanel">
                 <img className="howToImage" src={tut4} alt="tutorial"></img>
                 <h4>
                     Nice! To solve any word, you must guess it within a certain number of attempts determined
