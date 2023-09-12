@@ -6,8 +6,6 @@ const getAverage = (nums: number[]): number => {
 }
 
 const Stats: React.FC = () => {
-    console.log(LocalUtil.getLocalNum("numSolved5"));
-    console.log(localStorage.getItem("numSolved5"));
     return (
         <div className="ModalInner">
             <h2>Words Solved</h2>
